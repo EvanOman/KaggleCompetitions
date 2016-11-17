@@ -3,7 +3,7 @@
 # Dataset files (too big for github)
 AllState/dat/
 AllState/dat.tgz
-
+StackExchange/dat/
 
 #### joe made this: http://goel.io/joe
 
@@ -87,4 +87,14 @@ vignettes/*.pdf
 #####=== IPythonNotebook ===#####
 # Temporary data
 .ipynb_checkpoints/
+
+#### joe made this: http://goel.io/joe
+
+#####=== Vim ===#####
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
 
