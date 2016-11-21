@@ -1,6 +1,8 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
 import requests, os, sys, shutil, zipfile
+import ssl
+
 
 def downloadAll():
     if (os.path.isdir('./dat')):

@@ -3,14 +3,19 @@ import os
 
 def downloadAll():
 
-	if (os.path.isdir('./dat'))
+	print(os.environ['TEST'])
+
+	username = os.environ['USER']
+	password = os.environ['PASS']
+
+	if (os.path.isdir('./dat')):
 		print("Data already downloaded")
 	else:
 		baseURL = "https://www.kaggle.com/c/santander-product-recommendation/download/"
 		fNames = ["sample_submission.csv.zip", "test_ver2.csv.zip", "train_ver2.csv.zip"]
 
 		# Kaggle Username and Password
-		kaggle_info = {'UserName': "my_username", 'Password': "my_password"}
+		kaggle_info = {'UserName': username, 'Password': password}
 		for fileName in fNames:
 			# Attempts to download the CSV file. Gets rejected because we are not logged in.
 			r = requests.get(baseURL + fileName)
@@ -25,3 +30,6 @@ def downloadAll():
 				if chunk: # filter out keep-alive new chunks
 					f.write(chunk)
 			f.close()
+
+if (__name__ == "__main__"):
+	downloadAll()
