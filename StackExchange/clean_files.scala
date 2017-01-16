@@ -32,7 +32,7 @@ def main(): Unit =
 			var line_clean = line.replaceAll("\"\"\"\"", "\"\" \"\"").
 								  replaceAll("\"\"\"(,|$)", "\"\" \"$1").
 								  replaceAll("\"\"\"", "\" \"\"").
-								  replaceAll("\"\"", "\\\\\"")
+								  replaceAll("\"\"", "'")
 			w.println(line_clean)
 		})
 		w.close()
