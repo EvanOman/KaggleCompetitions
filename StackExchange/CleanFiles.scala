@@ -36,10 +36,12 @@ object CleanFiles
 			/* replace """  with " "" and then "" with \" */
 			Source.fromFile(outFile).getLines.foreach(line => {
 				/* Replace triple quotes at the end of the line first, the beginning */
-				var line_clean = line.replaceAll("\"\"\"\"", "\"\" \"\"").
-									  replaceAll("\"\"\"(,|$)", "\"\" \"$1").
-									  replaceAll("\"\"\"", "\" \"\"").
-									  replaceAll("\"\"", "'")
+				var line_clean = line.replaceAll("\"{5,}", ""). // Get rid of all 5 quotes plus, because they are dumb
+									  replaceAll("\"\"\"\"", "\"\" \"\""). // Replace all """" with "" "" (empty double quote)
+									  replaceAll("\"\"\"(,|$)", "\"\" \"$1"). // Replace all """ with " "" (quote at the beginning of post)
+									  replaceAll("\"\"\"", "\" \"\""). // Replace all """ with "" " (quote at the beginning of post)
+									  replaceAll("\"\"", "'"). // Replace all inner quotes with an apostrophe 
+									  replaceAll("&quot;", "'") // Replace html quote with an apostrophe
 				val doc = Jsoup.parse(line_clean)
 				/* TODO: This removes inline code as well, may cause issues */
 				doc.select("code, rm, img").remove()
