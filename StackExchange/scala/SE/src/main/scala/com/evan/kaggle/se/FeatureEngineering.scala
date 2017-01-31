@@ -3,6 +3,7 @@ package com.evan.kaggle.se
 import edu.stanford.nlp.simple.Sentence
 import edu.stanford.nlp.simple.Document
 import collection.JavaConverters._
+import scala.collection.immutable.HashSet
 
 object FeatureEngineering
 {
@@ -38,10 +39,18 @@ object FeatureEngineering
 						   numWords: Int, hasUpper: Boolean, isTitle: Boolean)
 
 	/* Creates a TrainingFeatures instance from a StdFeatures instance */
-	def mkTrFeat(s: StdFeatures, isTag: Boolean): TrainingFeatures =
+	def stdFeat2TrFeat(s: StdFeatures, isTag: Boolean): TrainingFeatures =
 		TrainingFeatures(s.nGram, s.posTags, s.depTags, s.relPos, s.numWords,
 			s.hasUpper, s.isTitle, isTag)
 
+	def makeTrFeatures(n: Int)(title: String, content: String, tags: String): Seq[TrainingFeatures] =
+	{
+		val lemmaTagSet: HashSet[String] = HashSet(tags.split(" ").map(tag => 
+			(new Sentence(tag.replace("-", " "))).lemmas.asScala.mkString("-")):_*)
+		makeStdFeatures(n)(title, content).map(stdFeat => {
+				stdFeat2TrFeat(stdFeat, lemmaTagSet.contains(stdFeat.nGram))
+			})
+	}
 
 	def makeStdFeatures(n: Int)(title: String, content: String): Seq[StdFeatures] =
 	{
