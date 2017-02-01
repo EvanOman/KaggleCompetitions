@@ -31,11 +31,11 @@ object FeatureEngineering
 	}
 
 	/* Simple struct representing training features */
-	case class TrainingFeatures(nGram: String, posTags: String, depTags: String, relPos: Double,
+	case class TrainingFeatures(nGram: Vector[String], posTags: Vector[String], depTags: Vector[String], relPos: Double,
 								numWords: Int, hasUpper: Boolean, isTitle: Boolean, isTag: Boolean)
 
 	/* Simple struct representing std features */
-	case class StdFeatures(nGram: String, posTags: String, depTags: String, relPos: Double,
+	case class StdFeatures(nGram: Vector[String], posTags: Vector[String], depTags: Vector[String], relPos: Double,
 						   numWords: Int, hasUpper: Boolean, isTitle: Boolean)
 
 	/* Creates a TrainingFeatures instance from a StdFeatures instance */
@@ -45,15 +45,27 @@ object FeatureEngineering
 
 	def makeTrFeatures(n: Int)(title: String, content: String, tags: String): Seq[TrainingFeatures] =
 	{
-		val lemmaTagSet: HashSet[String] = HashSet(tags.split(" ").map(tag => 
-			(new Sentence(tag.replace("-", " "))).lemmas.asScala.mkString("-")):_*)
+		var lemmaTagSet = HashSet[Vector[String]]()
+		if (tags != "" && tags != null)
+		{
+			lemmaTagSet= HashSet(tags.split(" ").flatMap(tag => if (tag.length > 0)
+				Some((new Sentence(tag.replace("-", " "))).lemmas.asScala.toVector) else None):_*)
+		}
+
 		makeStdFeatures(n)(title, content).map(stdFeat => {
 				stdFeat2TrFeat(stdFeat, lemmaTagSet.contains(stdFeat.nGram))
 			})
 	}
 
+
 	def makeStdFeatures(n: Int)(title: String, content: String): Seq[StdFeatures] =
 	{
+		/* should not start with a conjunction */
+		val badFirstPos = HashSet("CC")
+
+		/* shouldn't end in conjunction, article, or preposition */
+		val badLastPos = HashSet("CC", "DT", "IN")
+
 		// mk post sentence
 		val post_sents = (new Document(content)).sentences.asScala.toList
 
@@ -82,35 +94,36 @@ object FeatureEngineering
 				// val ngrams_good = ngramFilter(ngrams)
 
 				/* Map ngrams to StdFeature */
-				ngrams.zipWithIndex.map{case (ngram: List[LPDU], index: Int) => {
+				ngrams.zipWithIndex.flatMap{case (ngram: List[LPDU], index: Int) => {
 					/* Now we can calculate all of the std features: */
-					val lemmas = new StringBuffer()
-					val posTags = new StringBuffer()
-					val depTags = new StringBuffer()
+					var lemmas = Vector[String]()
+					var posTags = Vector[String]()
+					var depTags = Vector[String]()
 					var hasUpper = false
 
 					for (i <- 0 until ngram.length)
 					{
 						val lpdu = ngram(i)
-						lemmas.append(lpdu.l)
-						posTags.append(lpdu.p)
-						depTags.append(lpdu.d)
-						/* middle dependent "-" marks */
-						if (i < ngram.length - 1)
-						{
-							lemmas.append("-")
-							posTags.append("-")
-							depTags.append("-")
-						}
-
+						lemmas = lemmas :+ lpdu.l
+						posTags = posTags :+ lpdu.p
+						depTags = depTags :+ lpdu.d
 						/* check if any upper case */
 						hasUpper ||= lpdu.u
 					}
 					/* calc rest of feats */
 					val relPos = index / senLen
 					val numWords = nGramLen
-					StdFeatures(lemmas.toString, posTags.toString, depTags.toString,
-						relPos, numWords, hasUpper, isTitle)
+
+					/* TODO: come up with more filtering heuristics */
+					/* Remove obviously bad candidates */
+					if (badFirstPos.contains(posTags(0)) || badLastPos.contains(posTags(posTags.size - 1)))
+					{
+						None
+					}
+					else
+					{
+						Some(StdFeatures(lemmas, posTags, depTags, relPos, numWords, hasUpper, isTitle))
+					}
 				}}
 			}
 			}}}
