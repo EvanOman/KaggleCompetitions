@@ -6,7 +6,15 @@ AllState/dat.tgz
 StackExchange/dat/
 StackExchange/scala/libs
 
-*/metastore_db
+# stupid jupyter toree stuff
+metastore_db/
+
+# sbt build folder (THIS MAY CAUSE PROBLEMS)
+project/
+
+# datafile
+*.parquet/
+
 
 #### joe made this: http://goel.io/joe
 
