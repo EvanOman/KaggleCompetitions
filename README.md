@@ -8,7 +8,7 @@ This repo contains the code for some of the [Kaggle Competitions](http://www.kag
 	- **Status**: Tried out several different boosting/ensembling methods w/ about a dozen submissions
 - **[Transfer Learning on Stack Exchange Tags](./StackExchange)**:
 	- **Type**: Text tagging with cross domain training (transfer learning)
-	- **Status**: Implemented simple keyword based model, working on more advanced extraction
+	- **Status**: Implemented simple keyword based model, finished end to end information extraction approach. Currently refining IE approach.
 - **[Santander Product Pairing](./Santander)**:
 	- **Type**: Classification? (TBD)
 	- **Status**: Just started, doing exploratory analysis
