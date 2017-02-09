@@ -9,6 +9,9 @@ This repo contains the code for some of the [Kaggle Competitions](http://www.kag
 - **[Transfer Learning on Stack Exchange Tags](./StackExchange)**:
 	- **Type**: Text tagging with cross domain training (transfer learning)
 	- **Status**: Implemented simple keyword based model, finished end to end information extraction approach. Currently refining IE approach.
+- **[MNIST Handwriting Classification](./MNIST)**:
+	- **Type**: Classification (TBD)
+	- **Status**: Not yet started.
 - **[Santander Product Pairing](./Santander)**:
 	- **Type**: Classification? (TBD)
 	- **Status**: Just started, doing exploratory analysis
