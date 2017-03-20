@@ -12,6 +12,3 @@ This repo contains the code for some of the [Kaggle Competitions](http://www.kag
 - **[MNIST Handwriting Classification](./MNIST)**:
 	- **Type**: Classification (TBD)
 	- **Status**: Not yet started.
-- **[Santander Product Pairing](./Santander)**:
-	- **Type**: Classification? (TBD)
-	- **Status**: Just started, doing exploratory analysis
