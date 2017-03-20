@@ -12,6 +12,6 @@ This repo contains the code for some of the [Kaggle Competitions](http://www.kag
 - **[MNIST Handwriting Classification](./MNIST)**:
 	- **Type**: Classification (TBD)
 	- **Status**: Not yet started.
-- **[Quora Duplicate Question Detection](./Quora)
+- **[Quora Duplicate Question Detection](./Quora)**
 	- **Type**: Text distance detection 
 	- **Status**: just starting
