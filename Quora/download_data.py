@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 import requests, os, sys, shutil, zipfile, fire
 import ssl
@@ -10,14 +10,11 @@ class Download_Data(object):
         if optCmd is "clean":
                 print("Clean: removing ./dat folder\n\n")
                 shutil.rmtree("./dat")
-
         # if the data directory exists, do nothing
         if (os.path.isdir('./dat')):
             print("Data already downloaded")
-
         # otherwise download teh dataz
         else:
-
             # website specifics
             # TODO: this really could be refactored into a function which accepts these as params
             baseURL = "https://www.kaggle.com/c/quora-question-pairs/download/"
